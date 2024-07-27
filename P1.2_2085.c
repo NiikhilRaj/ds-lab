@@ -24,8 +24,8 @@ struct book* add()
     printf("Publication: ");
     scanf("%s", &pub);
 
-    printf("");
-
+    printf("Price: ");
+    scanf("%d", &bookPrice);
 };
 
 
