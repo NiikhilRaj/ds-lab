@@ -1,9 +1,9 @@
 #include<stdio.h>
 
-int sumRow(int *arr, int r);
-int sumCol(int *arr, int c);
-int AvgRow(int *arr, int r);
-int AvgCol(int *arr, int c);
+int sumRow(int *arr, int r, int n);
+int sumCol(int *arr, int c, int n);
+float AvgRow(int *arr, int r, int n);
+float AvgCol(int *arr, int c, int n);
 int nonZero(int *arr, int n);
 
 void main()
@@ -26,41 +26,56 @@ void main()
         
     }
     
-    printf("");
+    printf("The no of non zero elements are: %d\n", nonZero((int *)arr, n));
 
     for (int i = 0; i < n; i++)
     {
-        
+        printf("Row %d, Sum= %d, Average= %f\n", i+1,sumRow((int *)arr, i, n), AvgRow((int *)arr, i, n));
     }
     
+    for (int i = 0; i < n; i++)
+    {
+        printf("Column %d, Sum= %d, Average= %f\n", i+1,sumCol((int *)arr, i, n), AvgCol((int *)arr, i, n));
+    }
 
 }
 
-int sumRow(int a[], int l)
+int sumRow(int *arr, int r, int n)
 {
-    int sum;
+    int sum=0;
+    for (int i = 0; i < n; i++)
+    {
+        sum+= *((arr + r* n)+ i);
+    }
     return sum;
 };
 
-int sumCol(int a[], int l)
+int sumCol(int *arr, int c, int n)
 {
-    int sum;
+    int sum=0;
+    for (int i = 0; i < n; i++)
+    {
+        sum+= *((arr + i* n)+ c);
+    }
     return sum;
 };
 
-int AvgRow(int a[], int l)
+float AvgRow(int *arr, int r, int n)
 {
-    int sum, avg;
-    return avg;
+    return (float)sumRow(arr, r, n)/n;
 };
 
-int AvgCol(int a[], int l)
+float AvgCol(int *arr, int c, int n)
 {
-    int sum, avg;
-    return avg;
+    return (float)sumCol(arr, c, n)/n;
 };
 
 int nonZero(int *arr, int n)
 {
-
+    int count=0;
+    for (int i = 0; i < n * n; i++)
+    {
+        if (*(arr+i)!=0) count++;
+    }
+    return count;
 };
