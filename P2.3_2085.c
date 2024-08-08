@@ -74,11 +74,8 @@ void insert(int *arr, int n){
     }
     arr[pos]=ins;
 
-    for (int i = 0; i <= n; i++)
-    {
-        printf("%d", arr[i]);
-    }
-    printf("\n");
+    traverse(arr, n+1);
+
 };
 
 void delete(int *arr, int n){
@@ -88,11 +85,13 @@ void delete(int *arr, int n){
     printf("Enter the index to be deleted: ");
     scanf("%d", &del);
 
-    for (int i = del; i < n-1; i++)
+    for (int i = del; i < n; i++)
     {
         arr[i]=arr[i+1];
     }
     arr=(int *)realloc(arr, (n-1)*sizeof(int));
+
+    traverse(arr, n);
 };
 
 void merge(int *arr, int n){
@@ -104,9 +103,10 @@ void merge(int *arr, int n){
     int *arrM=(int *)malloc(s*sizeof(int));
 
     printf("Enter the numbers: ");
+
     for (int i = 0; i < s; i++)
     {
-        scanf("%d", &arr[i]);
+        scanf("%d", &arrM[i]);
     }
     arr = (int *)realloc(arr, (n+s)*sizeof(int));
 
@@ -114,6 +114,7 @@ void merge(int *arr, int n){
     {
         arr[i]=arrM[j];
     }
+    
     
     for (int i = 0; i < (n+s); i++)
     {
