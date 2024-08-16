@@ -1,7 +1,7 @@
 #include<stdio.h>
 
 int nonZero(int row, int col, int m[row][col]);
-void transpose(int row, int col, int m[row][col]);
+void transpose(int count, int matrixT[count + 1][3]);
 
 void main()
 {
@@ -17,7 +17,7 @@ void main()
     {
         for (int j = 0; j < col; j++)
         {
-            scanf("%d", matrix[i][j]);
+            scanf("%d", &matrix[i][j]);
         }
         
     }
@@ -40,11 +40,12 @@ void main()
                 matrixT[k][0]= i;
                 matrixT[k][1]= j;
                 matrixT[k][2]= matrix[i][j];
+                k++;
             }
         }
     }
     
-    transpose(row, col, matrixT);
+    transpose(count, matrixT);
 }
 
 int nonZero(int row, int col, int m[row][col]){
@@ -67,9 +68,17 @@ int nonZero(int row, int col, int m[row][col]){
     return c;
 };
 
-void transpose(int row, int col, int m[row][col]){
+void transpose(int count, int matrixT[count + 1][3]) {
+    printf("\nTranspose of Sparse Matrix:\n");
 
-    
+    for (int i = 1; i <= count; i++) {
+        int temp = matrixT[i][0];
+        matrixT[i][0] = matrixT[i][1];
+        matrixT[i][1] = temp;
+    }
 
-};
+    for (int i = 0; i <= count; i++) {
+        printf("%d %d %d\n", matrixT[i][0], matrixT[i][1], matrixT[i][2]);
+    }
+}
 
