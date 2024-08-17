@@ -162,16 +162,91 @@ void insertSpecific(NODE *start, int d, int i)
     }
 };
 void deleteBegin(NODE *start) {
-
+    if (start==NULL)
+    {
+        printf("Deletion not possible\n");
+        return;
+    }
+    else
+    {
+        NODE *temp=start;
+        start=start->next;
+        printf("%d", temp->data);
+        free(temp);
+    }
+    
 };
 void deleteEnd(NODE *start) {
-
+    NODE *temp=start, *temp1;
+    if (start==NULL)
+    {
+        printf("Deletion not possible\n");
+        return;
+    }
+    else if (start->next==NULL)
+    {
+        start=NULL;
+        printf("%d", temp->data);
+        free(temp);
+    }
+    else
+    {
+        while (temp->next->next!=NULL)
+        {
+            temp1=temp->next;
+            temp=temp->next;
+            temp->next=NULL;
+            printf("%d", temp->data);
+            free(temp1);
+        }
+        
+    }
+    
 };
 void deleteSpecific(NODE *start, int i) {
-
+    NODE *temp=start, *temp1;
+    if (start==NULL)
+    {
+        printf("Deletion not possible\n");
+        return;
+    }
+    else if (start->next==NULL)
+    {
+        start=NULL;
+        printf("%d", temp->data);
+        free(temp);
+    }
+    else
+    {
+        for (int j = 0; j < i;j++)
+        {
+            temp1=temp->next;
+            if (i=i)
+            {
+                temp->next=temp1->next;
+                printf("%d", temp1->data);
+            }
+            
+        }
+        
+    }
+    
 };
 void countNodes(NODE *start) {
-
+    NODE *temp=start;
+    int count=0;
+    if (temp==NULL)
+    {
+        printf("No elements");
+    }
+    else
+    {
+        while (temp->next!=NULL)
+        {
+            count++;
+            temp=temp->next;
+        } 
+    }
 };
 void search(NODE *start, int s) {
     NODE *temp=start;
@@ -181,8 +256,7 @@ void search(NODE *start, int s) {
         {
             printf("Found");
             return;
-        }
-        
+        } 
     }
-    
+    printf("Not Found");
 };
