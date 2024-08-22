@@ -96,7 +96,7 @@ void createNode(NODE *start, int d)
 {
     NODE *newNode = (NODE *)malloc(sizeof(NODE));
     newNode->data = d;
-    newNode->next;
+    newNode->next=NULL;
     start = newNode;
 };
 void displayList(NODE *start)
@@ -139,6 +139,7 @@ void insertEnd(NODE *start, int d)
         {
             temp = temp->next;
         }
+        temp->next=ptr;
     }
 };
 void insertSpecific(NODE *start, int d, int i)
