@@ -93,14 +93,16 @@ void main()
     }
 }
 
-void createNode(NODE *start, int d){
+void createNode(NODE *start, int d)
+{
     NODE *newNode = (NODE *)malloc(sizeof(NODE));
     newNode->data = d;
-    newNode->next=NULL;
-    newNode->prev=NULL;
+    newNode->next = NULL;
+    newNode->prev = NULL;
     start = newNode;
 };
-void displayList(NODE *start){
+void displayList(NODE *start)
+{
     NODE *temp = start;
     if (temp == NULL)
     {
@@ -113,7 +115,8 @@ void displayList(NODE *start){
         temp = temp->next;
     }
 };
-void insertBeginning(NODE *start, int d){
+void insertBeginning(NODE *start, int d)
+{
     NODE *ptr = (NODE *)malloc(sizeof(NODE));
     ptr->data = d;
     if (start == NULL)
@@ -123,19 +126,20 @@ void insertBeginning(NODE *start, int d){
     }
     else
     {
-        ptr->next=start;
-        ptr->prev=NULL;
-        start=ptr;
+        ptr->next = start;
+        ptr->prev = NULL;
+        start = ptr;
     }
 };
-void insertEnd(NODE *start, int d){
+void insertEnd(NODE *start, int d)
+{
     NODE *ptr = (NODE *)malloc(sizeof(NODE));
     ptr->data = d;
     ptr->next = NULL;
     if (start == NULL)
     {
         start = ptr;
-        ptr->prev=NULL;
+        ptr->prev = NULL;
     }
     else
     {
@@ -144,18 +148,19 @@ void insertEnd(NODE *start, int d){
         {
             temp = temp->next;
         }
-        temp->next=ptr;
-        ptr->prev=temp; 
+        temp->next = ptr;
+        ptr->prev = temp;
     }
 };
-void insertSpecific(NODE *start, int d, int i){
+void insertSpecific(NODE *start, int d, int i)
+{
     NODE *ptr = (NODE *)malloc(sizeof(NODE));
     ptr->data = d;
     if (start == NULL)
     {
         start = ptr;
         ptr->next = NULL;
-        ptr->prev=NULL;
+        ptr->prev = NULL;
     }
     else
     {
@@ -165,103 +170,106 @@ void insertSpecific(NODE *start, int d, int i){
             temp = temp->next;
         }
         ptr->next = temp->next;
-        temp->next=ptr;
-        ptr->prev=temp;
+        temp->next = ptr;
+        ptr->prev = temp;
     }
 };
-void deleteBegin(NODE *start){
-    if (start==NULL)
+void deleteBegin(NODE *start)
+{
+    if (start == NULL)
     {
         printf("Deletion not possible\n");
         return;
     }
     else
     {
-        NODE *temp=start;
-        start=start->next;
-        start->prev=NULL;
+        NODE *temp = start;
+        start = start->next;
+        start->prev = NULL;
         printf("%d", temp->data);
         free(temp);
     }
 };
-void deleteEnd(NODE *start){
-    NODE *temp=start, *temp1;
-    if (start==NULL)
+void deleteEnd(NODE *start)
+{
+    NODE *temp = start, *temp1;
+    if (start == NULL)
     {
         printf("Deletion not possible\n");
         return;
     }
-    else if (start->next==NULL)
+    else if (start->next == NULL)
     {
-        start=NULL;
+        start = NULL;
         printf("%d", temp->data);
         free(temp);
     }
     else
     {
-        while (temp->next->next!=NULL)
+        while (temp->next->next != NULL)
         {
-            temp1=temp->next;
-            temp=temp->next;
-            temp->next=NULL;
+            temp1 = temp->next;
+            temp = temp->next;
+            temp->next = NULL;
             printf("%d", temp->data);
             free(temp1);
         }
     }
 };
-void deleteSpecific(NODE *start, int i){
-    NODE *temp=start, *temp1;
-    if (start==NULL)
+void deleteSpecific(NODE *start, int i)
+{
+    NODE *temp = start, *temp1;
+    if (start == NULL)
     {
         printf("Deletion not possible\n");
         return;
     }
-    else if (start->next==NULL)
+    else if (start->next == NULL)
     {
-        start=NULL;
+        start = NULL;
         printf("%d", temp->data);
         free(temp);
     }
     else
     {
-        for (int j = 0; j < i;j++)
+        for (int j = 0; j < i; j++)
         {
-            temp1=temp->next;
-            if (i=i)
+            temp1 = temp->next;
+            if (i = i)
             {
-                temp->next=temp1->next;
+                temp->next = temp1->next;
                 printf("%d", temp1->data);
             }
-            
         }
-        
     }
 };
-void countNodes(NODE *start){
-    NODE *temp=start;
-    int count=0;
-    if (temp==NULL)
+void countNodes(NODE *start)
+{
+    NODE *temp = start;
+    int count = 0;
+    if (temp == NULL)
     {
         printf("No elements");
     }
     else
     {
-        while (temp->next!=NULL)
+        while (temp->next != NULL)
         {
             count++;
-            temp=temp->next;
-        } 
+            temp = temp->next;
+        }
     }
 };
-void search(NODE *start, int s){
-     NODE *temp=start;
-    while (temp!=NULL)
+void search(NODE *start, int s)
+{
+    NODE *temp = start;
+    while (temp != NULL)
     {
-        if (temp->data==s)
+        if (temp->data == s)
         {
             printf("Found");
             return;
-        } 
+        }
     }
     printf("Not Found");
 };
