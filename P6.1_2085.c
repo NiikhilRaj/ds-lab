@@ -42,20 +42,51 @@ int peep(NODE *stack) {
     return stack->item[stack->top];
 }
 
+void display(NODE *stack){
+    if (isEmpty(stack))
+    {
+        printf("Empty stack\n");
+    }
+    while (stack->top!=-1)
+    {
+        printf("%d", stack->item);
+        stack=pop(stack);
+    }
+};
+
+
 int main() {
     NODE stack;
     stack.top = -1;  
 
-    push(&stack, 10);
-    push(&stack, 20);
-    push(&stack, 30);
+     int choice, data;
 
-    printf("Top element is %d\n", peep(&stack));
+    while (1) {
+        printf("\n1. PUSH\n");
+        printf("2. POP\n");
+        printf("3. DISPLAY\n");
+        printf("4. EXIT\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-    printf("Popped element is %d\n", pop(&stack));
-    printf("Popped element is %d\n", pop(&stack));
-
-    printf("Top element is %d\n", peep(&stack));
-
+        switch (choice) {
+            case 1:
+                printf("Enter data to push: ");
+                scanf("%d", &data);
+                push(&stack, data);
+                break;
+            case 2:
+                pop(&stack);
+                break;
+            case 3:
+                display(&stack);
+                break;
+            case 4:
+                printf("Exiting...\n");
+                exit(0);
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
     return 0;
 }
