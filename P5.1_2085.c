@@ -56,7 +56,6 @@ poly *createPolynomial(int n){
     {
         for (int i = n; i >= 0; i--)
         {
-            new->exp=i;
             printf("Enter data of exponent %d: ", i);
             scanf("%d", &c);
             new = create(i, c);
