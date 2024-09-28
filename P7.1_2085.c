@@ -16,7 +16,6 @@ void display();
 int main()
 {
     int choice, item;
-    char x;
     printf("1. Add a node in the queue\n2. Delete a node in the queue\n3. Traverse \n4. Exit\n Enter your choice: ");
     scanf("%d", &choice);
     
@@ -35,13 +34,11 @@ int main()
             break;
         case 4:
             printf("Exiting..\n");
-            return 0;
+            break;
         default:
             printf("INvalid coice!\n");
             break;
         }
-        printf("Do you want to continue?(Y/N): ");
-        scanf("%c", &x);
     
     return 0;
 }
