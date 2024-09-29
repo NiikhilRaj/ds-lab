@@ -20,24 +20,24 @@ void display(DQ *q);
 void main()
 {
     int choice=0, item;
-    DQ *q=(DQ *)maloc(sizeof(DQ));
+    DQ *q=(DQ *)malloc(sizeof(DQ));
     create(q);
     while (choice!=6)
     {
-        printf("1. Insert at rear end\n2. Insert at front end\n3. Delete at front end\n4. Delete at rear end\n5. Display\n6. Exit\nENter your choice: ");
+        printf("1. Insert at rear end\n2. Insert at front end\n3. Delete at front end\n4. Delete at rear end\n5. Display\n6. Exit\nEnter your choice: ");
         scanf("%d", &choice);
 
         switch (choice)
         {
         case 1:
-            printf("Enter item to be inserted at front: ");
-            scanf("%d", &item);
-            insertAtFront(q, item);
-            break;
-        case 2:
             printf("Enter item to be inserted at rear: ");
             scanf("%d", &item);
             insertAtRear(q, item);
+            break;
+        case 2:
+            printf("Enter item to be inserted at front: ");
+            scanf("%d", &item);
+            insertAtFront(q, item);
             break;
         case 3:
             deleteFront(q);
@@ -65,7 +65,7 @@ void create(DQ *q){
 
 void insertAtFront(DQ *q, int item){
     
-    dq *temp=(dq *)maloc(sizeof(dq));
+    dq *temp=(dq *)malloc(sizeof(dq));
 
     temp->data=item;
     temp->next=NULL;
@@ -77,7 +77,7 @@ void insertAtFront(DQ *q, int item){
 };
 
 void insertAtRear(DQ *q, int item){
-    dq *temp=(dq *)maloc(sizeof(dq));
+    dq *temp=(dq *)malloc(sizeof(dq));
 
     temp->data=item;
     temp->next=NULL;
@@ -100,14 +100,42 @@ void deleteFront(DQ *q){
     else
     {
         free(temp);
-        free(dItem);
     }
 };
 
 void deleteRear(DQ *q){
+dq *temp=q->rear, *prev;
+int dItem=temp->data;
+    while (temp->next!=NULL)
+    {
+        prev=temp;
+        temp=temp->next;
+    }
+    dItem=temp->data;
 
-};
+    if (prev!=NULL) prev->next=NULL;
+    if (q->rear==NULL) q->front=NULL;
+    q->rear=prev;
+
+    printf("%d\n", dItem);
+
+    free(temp);
+}; 
 
 void display(DQ *q){
+    dq *temp = q->front;
     
+    if (temp == NULL) {
+        printf("Deque is empty\n");
+        return;
+    }
+    
+    printf("Deque elements: ");
+    
+    while (temp != NULL) {
+        printf("%d-->", temp->data);
+        temp = temp->next;
+    }
+    
+    printf("NULL\n");
 };
