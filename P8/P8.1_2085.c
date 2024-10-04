@@ -1,24 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node {
+typedef struct Node {
     int data;
     struct Node* left;
     struct Node* right;
-};
+}NODE;
 
-struct Node* insert(struct Node* node, int data);
-struct Node* search(struct Node* root, int key);
-void preorder(struct Node* root);
-void inorder(struct Node* root);
-void postorder(struct Node* root);
-struct Node* findLargest(struct Node* root);
-struct Node* findSmallest(struct Node* root);
-struct Node* deleteNode(struct Node* root, int key);
-struct Node* minValueNode(struct Node* node);
+NODE* insert(NODE* node, int data);
+NODE* search(struct Node* root, int key);
+void preorder(NODE* root);
+void inorder(NODE* root);
+void postorder(NODE* root);
+NODE* findLargest(NODE* root);
+NODE* findSmallest(NODE* root);
+NODE* deleteNode(NODE* root, int key);
+NODE* minValueNode(NODE* node);
 
 int main() {
-    struct Node* root = NULL;
+    NODE* root = NULL;
     int choice, value;
 
     while (1) {
@@ -66,7 +66,7 @@ int main() {
                 break;
             case 6:
                 if (root != NULL) {
-                    struct Node* largest = findLargest(root);
+                    NODE* largest = findLargest(root);
                     printf("Largest element: %d\n", largest->data);
                 } else {
                     printf("Tree is empty.\n");
@@ -74,7 +74,7 @@ int main() {
                 break;
             case 7:
                 if (root != NULL) {
-                    struct Node* smallest = findSmallest(root);
+                    NODE* smallest = findSmallest(root);
                     printf("Smallest element: %d\n", smallest->data);
                 } else {
                     printf("Tree is empty.\n");
@@ -95,9 +95,9 @@ int main() {
     return 0;
 }
 
-struct Node* insert(struct Node* node, int data) {
+NODE* insert(NODE* node, int data) {
     if (node == NULL) {
-        struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+        NODE* temp = (NODE*)malloc(sizeof(NODE));
         temp->data = data;
         temp->left = temp->right = NULL;
         return temp;
@@ -109,7 +109,7 @@ struct Node* insert(struct Node* node, int data) {
     return node;
 }
 
-struct Node* search(struct Node* root, int key) {
+NODE* search(NODE* root, int key) {
     if (root == NULL || root->data == key)
         return root;
     if (root->data < key)
@@ -117,7 +117,7 @@ struct Node* search(struct Node* root, int key) {
     return search(root->left, key);
 }
 
-void preorder(struct Node* root) {
+void preorder(NODE* root) {
     if (root != NULL) {
         printf("%d ", root->data);
         preorder(root->left);
@@ -125,7 +125,7 @@ void preorder(struct Node* root) {
     }
 }
 
-void inorder(struct Node* root) {
+void inorder(NODE* root) {
     if (root != NULL) {
         inorder(root->left);
         printf("%d ", root->data);
@@ -133,7 +133,7 @@ void inorder(struct Node* root) {
     }
 }
 
-void postorder(struct Node* root) {
+void postorder(NODE* root) {
     if (root != NULL) {
         postorder(root->left);
         postorder(root->right);
@@ -141,19 +141,19 @@ void postorder(struct Node* root) {
     }
 }
 
-struct Node* findLargest(struct Node* root) {
+NODE* findLargest(NODE* root) {
     while (root->right != NULL)
         root = root->right;
     return root;
 }
 
-struct Node* findSmallest(struct Node* root) {
+NODE* findSmallest(NODE* root) {
     while (root->left != NULL)
         root = root->left;
     return root;
 }
 
-struct Node* deleteNode(struct Node* root, int key) {
+NODE* deleteNode(NODE* root, int key) {
     if (root == NULL)
         return root;
     if (key < root->data)
@@ -162,23 +162,23 @@ struct Node* deleteNode(struct Node* root, int key) {
         root->right = deleteNode(root->right, key);
     else {
         if (root->left == NULL) {
-            struct Node* temp = root->right;
+            NODE* temp = root->right;
             free(root);
             return temp;
         } else if (root->right == NULL) {
-            struct Node* temp = root->left;
+            NODE* temp = root->left;
             free(root);
             return temp;
         }
-        struct Node* temp = minValueNode(root->right);
+        NODE* temp = minValueNode(root->right);
         root->data = temp->data;
         root->right = deleteNode(root->right, temp->data);
     }
     return root;
 }
 
-struct Node* minValueNode(struct Node* node) {
-    struct Node* current = node;
+NODE* minValueNode(NODE* node) {
+    NODE* current = node;
     while (current && current->left != NULL)
         current = current->left;
     return current;
