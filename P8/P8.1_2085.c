@@ -5,7 +5,7 @@ typedef struct Node {
     int data;
     struct Node* left;
     struct Node* right;
-}NODE;
+} NODE;
 
 NODE* insert(NODE* node, int data);
 NODE* search(struct Node* root, int key);
@@ -16,6 +16,8 @@ NODE* findLargest(NODE* root);
 NODE* findSmallest(NODE* root);
 NODE* deleteNode(NODE* root, int key);
 NODE* minValueNode(NODE* node);
+int height(NODE* root);
+int totalNodes(NODE* root);
 
 int main() {
     NODE* root = NULL;
@@ -31,7 +33,9 @@ int main() {
         printf("6. Find largest element\n");
         printf("7. Find smallest element\n");
         printf("8. Delete the element\n");
-        printf("9. Quit\n");
+        printf("9. Find height of the tree\n");
+        printf("10. Find total number of nodes\n");
+        printf("11. Quit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -86,6 +90,12 @@ int main() {
                 root = deleteNode(root, value);
                 break;
             case 9:
+                printf("Height of the tree: %d\n", height(root));
+                break;
+            case 10:
+                printf("Total number of nodes: %d\n", totalNodes(root));
+                break;
+            case 11:
                 exit(0);
             default:
                 printf("Invalid choice.\n");
@@ -182,4 +192,18 @@ NODE* minValueNode(NODE* node) {
     while (current && current->left != NULL)
         current = current->left;
     return current;
+}
+
+int height(NODE* root) {
+    if (root == NULL)
+        return 0;
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+}
+
+int totalNodes(NODE* root) {
+    if (root == NULL)
+        return 0;
+    return totalNodes(root->left) + totalNodes(root->right) + 1;
 }
