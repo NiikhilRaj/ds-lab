@@ -4,16 +4,26 @@
 
 void createGraph(int adjMatrix[MAX][MAX], int vertices);
 void displayDegrees(int adjMatrix[MAX][MAX], int vertices);
+void DFS(int adjMatrix[MAX][MAX], int vertices, int startVertex, int visited[]);
 
 int main() {
     int vertices;
     int adjMatrix[MAX][MAX] = {0};
+    int visited[MAX] = {0};
+    int startVertex;
 
     printf("Enter number of vertices: ");
     scanf("%d", &vertices);
 
     createGraph(adjMatrix, vertices);
     displayDegrees(adjMatrix, vertices);
+
+    printf("Enter start vertex: ");
+    scanf("%d", &startVertex);
+
+    printf("Depth First Search: ");
+    DFS(adjMatrix, vertices, startVertex, visited);
+    printf("\n");
 
     return 0;
 }
@@ -42,5 +52,16 @@ void displayDegrees(int adjMatrix[MAX][MAX], int vertices) {
             }
         }
         printf(" %d %d\n", i + 1, degree);
+    }
+}
+
+void DFS(int adjMatrix[MAX][MAX], int vertices, int startVertex, int visited[]) {
+    printf("%d ", startVertex);
+    visited[startVertex] = 1;
+
+    for (int i = 0; i < vertices; i++) {
+        if (adjMatrix[startVertex][i] == 1 && !visited[i]) {
+            DFS(adjMatrix, vertices, i, visited);
+        }
     }
 }

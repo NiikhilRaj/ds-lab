@@ -11,7 +11,7 @@ int main() {
 
     printf("Enter number of vertices: ");
     scanf("%d", &vertices);
-
+    
     createGraph(adjMatrix, vertices);
     displayDegrees(adjMatrix, vertices);
 
