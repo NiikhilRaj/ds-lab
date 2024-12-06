@@ -6,10 +6,17 @@ typedef struct Node
     int data;
     struct Node *left;
     struct Node *right;
+    int height;
 } NODE;
 
+int max(int a, int b);
+int height(NODE *N);
+NODE *newNode(int data);
+NODE *rightRotate(NODE *y);
+NODE *leftRotate(NODE *x);
+int getBalance(NODE *N);
 NODE *insert(NODE *node, int data);
-NODE *search(struct Node *root, int key);
+NODE *search(NODE *root, int key);
 void preorder(NODE *root);
 void inorder(NODE *root);
 void postorder(NODE *root);
@@ -17,7 +24,6 @@ NODE *findLargest(NODE *root);
 NODE *findSmallest(NODE *root);
 NODE *deleteNode(NODE *root, int key);
 NODE *minValueNode(NODE *node);
-int height(NODE *root);
 int totalNodes(NODE *root);
 
 int main()
@@ -28,11 +34,11 @@ int main()
     while (1)
     {
         printf("\nMenu:\n");
-        printf("1. Insert a node in BST\n");
-        printf("2. Search a node in BST\n");
-        printf("3. Display (preorder) in BST\n");
-        printf("4. Display (inorder) in BST\n");
-        printf("5. Display (postorder) in BST\n");
+        printf("1. Insert a node in AVL Tree\n");
+        printf("2. Search a node in AVL Tree\n");
+        printf("3. Display (preorder) in AVL Tree\n");
+        printf("4. Display (inorder) in AVL Tree\n");
+        printf("5. Display (postorder) in AVL Tree\n");
         printf("6. Find largest element\n");
         printf("7. Find smallest element\n");
         printf("8. Delete the element\n");
@@ -115,19 +121,97 @@ int main()
     return 0;
 }
 
+int height(NODE *N)
+{
+    if (N == NULL)
+        return 0;
+    return N->height;
+}
+
+int max(int a, int b)
+{
+    return (a > b) ? a : b;
+}
+
+NODE *newNode(int data)
+{
+    NODE *node = (NODE *)malloc(sizeof(NODE));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 1;
+    return (node);
+}
+
+NODE *rightRotate(NODE *y)
+{
+    NODE *x = y->left;
+    NODE *T2 = x->right;
+
+    x->right = y;
+    y->left = T2;
+
+    y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
+
+    return x;
+}
+
+NODE *leftRotate(NODE *x)
+{
+    NODE *y = x->right;
+    NODE *T2 = y->left;
+
+    y->left = x;
+    x->right = T2;
+
+    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
+
+    return y;
+}
+
+int getBalance(NODE *N)
+{
+    if (N == NULL)
+        return 0;
+    return height(N->left) - height(N->right);
+}
+
 NODE *insert(NODE *node, int data)
 {
     if (node == NULL)
-    {
-        NODE *temp = (NODE *)malloc(sizeof(NODE));
-        temp->data = data;
-        temp->left = temp->right = NULL;
-        return temp;
-    }
+        return (newNode(data));
+
     if (data < node->data)
         node->left = insert(node->left, data);
     else if (data > node->data)
         node->right = insert(node->right, data);
+    else
+        return node;
+
+    node->height = 1 + max(height(node->left), height(node->right));
+
+    int balance = getBalance(node);
+
+    if (balance > 1 && data < node->left->data)
+        return rightRotate(node);
+
+    if (balance < -1 && data > node->right->data)
+        return leftRotate(node);
+
+    if (balance > 1 && data > node->left->data)
+    {
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
+    }
+
+    if (balance < -1 && data < node->right->data)
+    {
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
+    }
+
     return node;
 }
 
@@ -188,46 +272,69 @@ NODE *deleteNode(NODE *root, int key)
 {
     if (root == NULL)
         return root;
+
     if (key < root->data)
         root->left = deleteNode(root->left, key);
     else if (key > root->data)
         root->right = deleteNode(root->right, key);
     else
     {
-        if (root->left == NULL)
+        if ((root->left == NULL) || (root->right == NULL))
         {
-            NODE *temp = root->right;
-            free(root);
-            return temp;
+            NODE *temp = root->left ? root->left : root->right;
+
+            if (temp == NULL)
+            {
+                temp = root;
+                root = NULL;
+            }
+            else
+                *root = *temp;
+
+            free(temp);
         }
-        else if (root->right == NULL)
+        else
         {
-            NODE *temp = root->left;
-            free(root);
-            return temp;
+            NODE *temp = minValueNode(root->right);
+            root->data = temp->data;
+            root->right = deleteNode(root->right, temp->data);
         }
-        NODE *temp = minValueNode(root->right);
-        root->data = temp->data;
-        root->right = deleteNode(root->right, temp->data);
     }
+
+    if (root == NULL)
+        return root;
+
+    root->height = 1 + max(height(root->left), height(root->right));
+
+    int balance = getBalance(root);
+
+    if (balance > 1 && getBalance(root->left) >= 0)
+        return rightRotate(root);
+
+    if (balance > 1 && getBalance(root->left) < 0)
+    {
+        root->left = leftRotate(root->left);
+        return rightRotate(root);
+    }
+
+    if (balance < -1 && getBalance(root->right) <= 0)
+        return leftRotate(root);
+
+    if (balance < -1 && getBalance(root->right) > 0)
+    {
+        root->right = rightRotate(root->right);
+        return leftRotate(root);
+    }
+
     return root;
 }
 
 NODE *minValueNode(NODE *node)
 {
     NODE *current = node;
-    while (current && current->left != NULL)
+    while (current->left != NULL)
         current = current->left;
     return current;
-}
-
-int height(NODE *root)
-{
-    if (root == NULL)
-        return 0;
-    int leftHeight = height(root->left);
-    int rightHeight = height(root->right);
-    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
 }
 
 int totalNodes(NODE *root)
